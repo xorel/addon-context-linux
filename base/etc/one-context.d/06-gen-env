@@ -2,8 +2,6 @@
 
 ENV_FILE="/tmp/one_env"
 
-TOKENTXT=$(cat /mnt/token.txt)
-
 if [ -n "$ONEGATE_TOKEN" ]; then
     TOKENTXT="$ONEGATE_TOKEN"
 fi
@@ -25,7 +23,7 @@ function export_rc_vars
   fi
 }
 
-export_rc_vars /mnt/context.sh
+export_rc_vars /tmp/context.sh
 
 chown root:root $ENV_FILE
 chmod a+r $ENV_FILE

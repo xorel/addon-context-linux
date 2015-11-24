@@ -25,13 +25,15 @@ if [ -d /etc/network ]; then
     update-rc.d vmcontext defaults 9 99
 
     # Prepare network files
-    cp /etc/network/interfaces /etc/network/interfaces.$(date "+%s")
-    cat > /etc/network/interfaces <<EOT
-# The loopback network interface
-auto lo
-iface lo inet loopback
-EOT
-    rm -rf /etc/network/interfaces.d
+
+# Network configuration is handled by Amazon
+#    cp /etc/network/interfaces /etc/network/interfaces.$(date "+%s")
+#    cat > /etc/network/interfaces <<EOT
+## The loopback network interface
+#auto lo
+#iface lo inet loopback
+#EOT
+#    rm -rf /etc/network/interfaces.d
 fi
 
 # RedHat based distros
@@ -40,7 +42,9 @@ if [ -d /etc/sysconfig/network-scripts ]; then
     chkconfig --add vmcontext
 
     # Prepare network files
-    rm -f /etc/sysconfig/network-scripts/ifcfg-eth*
+
+# Network configuration is handled by Amazon
+#    rm -f /etc/sysconfig/network-scripts/ifcfg-eth*
 fi
 
 

@@ -1,6 +1,5 @@
 #!/bin/bash
 
-MOUNT_DIR=/mnt
 TMP_DIR=/tmp/one-context-tmp
 TMP_FILE=$TMP_DIR/one-start-script
 START_SCRIPT_AVAILABLE=no
@@ -16,7 +15,6 @@ elif [ -n "$START_SCRIPT" ]; then
 fi
 
 if [ "$START_SCRIPT_AVAILABLE" = "yes" ]; then
-    cd $MOUNT_DIR
     chmod +x $TMP_FILE
 
     $TMP_FILE
