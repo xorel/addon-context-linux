@@ -152,6 +152,17 @@ EOT
     echo ""
 }
 
+gen_alias_conf() {
+    cat <<EOT
+auto $DEV:$ALIAS_INDEX
+iface $DEV:$ALIAS_INDEX inet static
+  address $IP
+  netmask $MASK
+EOT
+
+echo ""
+}
+
 gen_iface6_conf() {
     cat <<EOT
 iface $DEV inet6 static
@@ -196,6 +207,12 @@ get_interface_mac()
 get_context_interfaces()
 {
     env | grep -E "^ETH[0-9]+_MAC=" | sed 's/_.*$//' | sort
+}
+
+
+get_interface_alias()
+{
+    env | grep -E "^ETH${INDEX}_ALIAS[0-9]+_MAC=" | cut -d '_' -f 2 | sort
 }
 
 get_dev()
@@ -244,6 +261,19 @@ EOT
         [[ -n $IP ]] && gen_iface_conf
         [[ -n $IP6 ]] && gen_iface6_conf
 
+        INDEX=${interface: -1}
+        ALIAS=$(get_interface_alias)
+        ALIAS_INDEX=0
+
+        for nic_alias in $ALIAS; do
+            UPCASE_DEV="ETH${INDEX}_${nic_alias}"
+            IP=$(get_ip)
+            MASK=$(get_mask)
+
+            [[ -n $IP ]] && gen_alias_conf
+
+            ALIAS_INDEX=$((ALIAS_INDEX + 1))
+        done
     done
 }
 
